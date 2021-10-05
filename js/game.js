@@ -5,20 +5,40 @@ var gGame = {
     isOn: false,
     shownCount: 0,
     markedCount: 0,
-    secsPassed: 0
+    secsPassed: 0,
+    lifeLeft: 3
 };
 var gLevel = {
     SIZE:4,
     MINES: 2
 };
-var isFirstClick = true;
+var isFirstClick;
+
+var gTimeIntervalIdx;
 
 // init of the game.
 function gameInit(){
-    gGame.isOn = true;
+    resetValues();
+    // switch emoji face to normal.
+    switchEmoji();
     gBoard = createBoard(gLevel.SIZE);
-    console.table(gBoard);
     renderBoard(gBoard);
+}
+
+function resetValues(){
+    // reseting mines array, and it is going to be first click.
+    isFirstClick = true;
+    gGame.isOn = true;
+    gMines = [];
+    // reseting flags count.
+    gGame.markedCount = 0;
+    // restarting health points.
+    gGame.lifeLeft = 3;
+    resetHP();
+    // starts counting seconds, and init clock.
+    resetTime();
+    // init the shown cells count.
+    gGame.shownCount = 0;
 }
 
 // init cells valus.
@@ -71,41 +91,123 @@ function renderBoard(board){
 
 
 function cellClicked(location){
+    var currCell = gBoard[location.i][location.j];
+
     if(!gGame.isOn) return;
     // only in the first time FirstClick will be true.
     if(isFirstClick) {
+        setTime();
         initCellsValues(location);
         isFirstClick = false;
     }
-    
-    var mineCount = gBoard[location.i][location.j].minesAroundCount;
+    // if already shown.
+    if(currCell.isShown) return;
+    // if there is a flag on cell cannot reveal.
+    if(currCell.isMarked) return;
+    var mineCount = currCell.minesAroundCount;
     switch(true){
         // first case: pressed a number.
         case (mineCount>0):
+            // update shownCount to check win.
+            gGame.shownCount++;
             // update MODEL:
-            gBoard[location.i][location.j].isShown=true;
+            currCell.isShown=true;
             // update DOM:
             removeCellCover(location);
             showCellVal(location);
+            // checking if win.
+            isVictory();
             break;
             
         // second case: pressed empty cell.
         case (mineCount === 0):
             clickedNoMines(gBoard,location);
+            // checking if win.
+            isVictory();
             break;
         // third case: pressed bomb.
         case (mineCount === -1):
-            // show all bombs.
-            showAllBombs();
-            // end game.
-            gameOver();
+            // one hp down, checking if game over.
+            gGame.lifeLeft--;
+            losingHP();
+            // remove flag from flag count to a possible win.
+            gGame.markedCount++;
+            removeCellCover(location);
+            showCellVal(location);
+            // game is over condition.
+            if(gGame.lifeLeft<=0){
+                // show all bombs.
+                showAllBombs();
+                // end game.
+                gameOver();
+            }
             break;
         }
 }
             
-            
+
+function setLevel(elButton){
+    var buttonTxt = elButton.innerHTML;
+    switch(true){
+        case (buttonTxt==='Easy'):
+            gLevel.SIZE = 4;
+            gLevel.MINES = 2;
+            break; 
+        case (buttonTxt==='Medium'):
+            gLevel.SIZE = 8;
+            gLevel.MINES = 12;
+            break; 
+        case (buttonTxt==='Hard'):
+            gLevel.SIZE = 12;
+            gLevel.MINES = 30;
+            break; 
+        }
+        gameInit();
+}
+
+
 function gameOver(){
     // stops clicking on cells from reacting.
     gGame.isOn = false;
-                
+    // change emoji face.
+    var elEmojiButton = document.querySelector('.face-button');
+    elEmojiButton.innerHTML = '😭';
+    // stops time.
+    clearInterval(gTimeIntervalIdx);
+}
+
+function isVictory(){
+    var minlessCellsCount = gLevel.SIZE*gLevel.SIZE - gLevel.MINES;
+    if(gGame.shownCount === minlessCellsCount &&
+        gGame.markedCount === gLevel.MINES) victory();
+    console.log('markedCount',gGame.markedCount, 'MINES on level',gLevel.MINES);
+}
+
+function victory(){
+    gGame.isOn = false;
+    var elEmojiButton = document.querySelector('.face-button');
+    elEmojiButton.innerHTML = '🥳';
+    showAllBombs();
+    // stops time.
+    clearInterval(gTimeIntervalIdx);
+    console.log('should stop time interval')
+    
+}
+
+function setTime(){
+    var elTimer = document.querySelector('h1');
+    elTimer.innerHTML = gGame.secsPassed;
+    if(isFirstClick){
+        gTimeIntervalIdx = setInterval(function (){
+          gGame.secsPassed++; 
+          var elTimer = document.querySelector('h1');
+          elTimer.innerHTML = gGame.secsPassed;
+        },1000)
+    }
+}
+function resetTime(){
+    var elTimer = document.querySelector('h1');
+    gGame.secsPassed = 0;
+    elTimer.innerHTML = gGame.secsPassed;
+    clearInterval(gTimeIntervalIdx);
 }

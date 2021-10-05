@@ -8,13 +8,22 @@
     <title>Minesweeper</title>
 </head>
 <body onload="gameInit()">
-    <h1>Minesweeper Game</h1>
-    
-    <div class="table-container">
-        <table>
 
-        </table>
+    <div class="container">
+        <div class="life-time-cotainer">
+            <h2>❤️❤️❤️</h2><h1>Time</h1>
+        </div>
+        <div class="button-container">
+            <button class="face-button" onclick="gameInit()">😎</button>
+        </div>
+        <table></table>
+        <div class="buttons">
+            <button class="level-buttons" onclick="setLevel(this)">Easy</button>
+            <button class="level-buttons" onclick="setLevel(this)">Medium</button>
+            <button class="level-buttons" onclick="setLevel(this)">Hard</button>
+        </div>
     </div>
+    
 
     <script src="js/util.js"></script>
     <script src="js/flag.js"></script>

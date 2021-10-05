@@ -1,27 +1,56 @@
 h1{
-    width: 300px;
-    margin:auto;
+    width: 20px;
+    display: inline;
+    position: fixed;
+    right: 620px;
+    top: 23px;
+    text-align: center;
+    text-indent: 2px;
+    font-style: italic;
+    padding: 10px 40px;
+    border: 4px solid black;
+    background-color: #BADA55;
+    border-radius: 50%;
+}
+h2{
+    width: 75px;
+    height: 5px;
+    display: inline;
+    text-align: center;
+    margin-left: 600px;
+    padding: 10px 20px;
+    border-radius: 50%; 
+}
+.life-time-cotainer{
+    width:100%;
+    margin: auto;
+    padding-top: 50px;
+
 }
 
+body{
+    background: #ffffff url("../img/game_background.jpg") no-repeat top right;
+}
 div table{
-    margin-top: 200px;
+    margin-top: 50px;
 }
 
 table{
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border: 4px solid black;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     table-layout: fixed;
 }
 td{
     border: 4px solid black;
     background-color: rgba(145, 136, 136, 0.767); 
     text-align: center;
-    width: 40px;
+    width: 30px;
 }
 tr{
-    height:50px;
+    height:40px;
 }
 
 td span{
@@ -38,5 +67,39 @@ td span{
     background-size: 100% 100%;
 }
 
+  /* buttons */
+.buttons{
+    width: 400px;
+    margin: auto;
+    padding: 20px 20px;
+}
+.level-buttons{
+    margin: 5px 30px;
+    padding: auto;
+    border-radius: 40%;
+    background-color: rgba(56, 112, 119, 0.527);
+    font-size: 20px;
+} 
 
+.button-container{
+    width: 200px;
+    margin: auto;
+    margin-top: 30px;
+}
+
+.face-button{
+    width: 75px;
+    height: 75px;
+    font-size: 40px;
+    background-image: url("../img/cell.png");
+    background-size: 100% 100%;
+    align-items: center;
+    margin-left: 50%;
+    border: 4px solid black;
+    Transform: translate(-50%)
+}
+.face-button:hover{
+    background-image: url();
+    background-color: grey;
+}
 

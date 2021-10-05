@@ -51,6 +51,8 @@ function createMines(firstClickIdx){
 // if user clicked on cell without mines around him show around.
 function clickedNoMines(board, cellIdx){
     board[cellIdx.i][cellIdx.j].isShown = true;
+    removeCellCover(cellIdx);
+    gGame.shownCount++;
     for(var i=cellIdx.i - 1; i<=cellIdx.i+1; i++){
         for(var j=cellIdx.j - 1; j<=cellIdx.j+1; j++){
             // if the checked cell is a bomb.
@@ -66,13 +68,16 @@ function clickedNoMines(board, cellIdx){
             if(board[i][j].minesAroundCount===0 && !board[i][j].isShown){
                 clickedNoMines(board,{i:i,j:j})
             }
-            // update MODEL:
-            board[i][j].isShown = true;
-            // update DOM:
-            var location = {i:i,j:j};
-            removeFlag(location);
-            removeCellCover(location);
-            showCellVal(location);
+            if(!board[i][j].isShown){
+                gGame.shownCount++;
+                // update MODEL:
+                board[i][j].isShown = true;
+                // update DOM:
+                var location = {i:i,j:j};
+                removeFlag(location);
+                removeCellCover(location);
+                showCellVal(location);
+            }
         }
     }
 }
@@ -88,4 +93,27 @@ function showAllBombs(){
         removeCellCover(currMineIdx);
         showCellVal(currMineIdx);
     }
+}
+
+// changing hearts when losing HP.
+function losingHP(){
+    var elHP = document.querySelector('h2');
+    var hpTxt = elHP.innerHTML;
+    
+    switch(true){
+        case (hpTxt === '❤️❤️❤️'):
+            elHP.innerHTML = '❤️❤️';
+            break;
+        case (hpTxt === '❤️❤️'):
+            elHP.innerHTML = '❤️';
+            break;
+        case (hpTxt === '❤️'):
+            elHP.innerHTML = '💀💀💀';
+            break;
+    }
+}
+
+function resetHP(){
+    var elHP = document.querySelector('h2');
+    elHP.innerHTML = '❤️❤️❤️';
 }

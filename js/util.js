@@ -43,4 +43,5 @@ function getRandomIntInclusive(min, max) {
 function removeCellCover(location){
     var elCell = document.querySelector(`.cell${location.i}-${location.j}`);
     elCell.classList.remove('cell-cover');
+    gBoard[location.i][location.j].isShown = true;
 }
