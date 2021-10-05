@@ -30,6 +30,7 @@ h2{
 
 body{
     background: #ffffff url("../img/game_background.jpg") no-repeat top right;
+    background-size: 100%;
 }
 div table{
     margin-top: 50px;
@@ -103,3 +104,24 @@ td span{
     background-color: grey;
 }
 
+/* clue buttons*/
+.clue-buttons-container{
+    position:fixed;
+    top:10px;
+    left: 380px;
+    padding: 20px 15px;
+    padding-bottom: 20px;
+
+}
+.clue-button{
+    font-size: 20px;
+    background-color: yellow;
+}
+
+/* best Score header */
+h3{
+    position:fixed;
+    top:200px;
+    left:50%;
+    transform: translate(-50%)
+}
