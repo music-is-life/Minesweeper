@@ -1,5 +1,3 @@
-// disable menu when right click with the mouse.
-dissRightClickMenu();
 
 function markCell(evAndLocation) {
     // case game is over.

@@ -17,6 +17,8 @@ var gTimeIntervalIdx;
 
 // init of the game.
 function gameInit() {
+    // disable menu when right click with the mouse.
+    dissRightClickMenu();
     resetValues();
     // switch emoji face to normal.
     switchEmoji();
