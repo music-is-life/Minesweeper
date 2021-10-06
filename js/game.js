@@ -13,7 +13,6 @@ var gLevel = {
     MINES: 2
 };
 var isFirstClick;
-
 var gTimeIntervalIdx;
 
 // init of the game.
@@ -43,6 +42,8 @@ function resetValues() {
     resetClue();
     // set the best score of the current level.
     setBestScore();
+    // init Safe click values.
+    resetSafeClick();
 }
 
 // init cells valus.
@@ -95,8 +96,9 @@ function renderBoard(board) {
 
 
 function cellClicked(location) {
+    
     var currCell = gBoard[location.i][location.j];
-
+    
     if (!gGame.isOn) return;
     // only in the first time FirstClick will be true.
     if (isFirstClick) {
@@ -107,13 +109,15 @@ function cellClicked(location) {
     // case isClueOn and next click needs to reveal neg cells.
     if (gIsClueOn) {
         showNegs(location);
-        // setTimeout(coverNegs, 1000);
         return;
     }
     // if already shown.
     if (currCell.isShown) return;
     // if there is a flag on cell cannot reveal.
     if (currCell.isMarked) return;
+    // undo bonus functions.
+    console.log('inside CellClicked.')
+    storeTempGameVals();
     var mineCount = currCell.minesAroundCount;
     switch (true) {
         // first case: pressed a number.

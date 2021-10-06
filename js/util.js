@@ -13,11 +13,14 @@ function getRandomColor() {
   return color;
 }
 
+// UPDATED to minesweeper game needs.
 function ranEmptyCell(board) {
   var emptyCells = [];
   for (var i = 0; i < board.length; i++) {
     for (var j = 0; j < board.length; j++) {
-      if (board[i][j] === EMPTY) {
+      var currCell = board[i][j];
+      // push cell only if its not a mine AND not already shown.
+      if (!currCell.isShown && !currCell.isMine) {
         emptyCells.push({ i: i, j: j });
       }
     }

@@ -112,6 +112,21 @@ function losingHP() {
     }
 }
 
+function addingHP(){
+    // if undo bomb adding HP.
+    var elHP = document.querySelector('h2');
+    var hpTxt = elHP.innerHTML;
+    switch (true) {
+        case (hpTxt === '❤️❤️'):
+            elHP.innerHTML = '❤️❤️❤️';
+            break;
+        case (hpTxt === '❤️'):
+            elHP.innerHTML = '❤️❤️';
+            break;
+    }
+}
+
+
 function resetHP() {
     var elHP = document.querySelector('h2');
     elHP.innerHTML = '❤️❤️❤️';
